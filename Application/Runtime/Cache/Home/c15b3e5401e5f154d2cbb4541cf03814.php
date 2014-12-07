@@ -1,0 +1,1 @@
+<?php if (!defined('THINK_PATH')) exit();?>数据添加失败

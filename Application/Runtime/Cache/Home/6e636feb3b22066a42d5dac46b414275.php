@@ -1,0 +1,55 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>11-SupportGroup</title>
+
+</head>
+
+<body>
+<div style="width:70%;margin:0 auto">
+	<form id="form1" name="form1" method="post" action="">
+	  <div id="container">
+		
+		<div class="searcbar">
+		  <label>
+		  <select name="user" class="select01" id="user">
+			<option>User Shortcut</option>
+				</select>
+		  </label>
+		<input name="textfield" type="text" class="input01" id="password" />
+			  <label>
+		  <select name="user" class="select02" id="user">
+			<option>People</option>
+			  </select>
+		  </label>
+			  <label>
+			  <input type="submit" name="Search" id="Search" value="Search" />
+			  </label>
+		</div>
+	</form>   
+		
+		<div id="contentarea">
+		 <div id="left" style="width:30%;height:600px;float:left;">
+			<div id="lefta" style="width:80%;height:100px;margin:20px auto;background-color:#DFEDFC;">
+				<div><?php echo (session('username')); ?>的主页</div>
+				<div>登陆时间</div>
+			</div>
+			<div><a href="/weibo/index.php/home/user/newblog">发布新的内容</a></div>
+			<div id="leftb" style="width:80%;height:100px;margin:20px auto;background-color:#DFEDFC;">
+				<div>关注人数：</div>
+				<div>粉丝人数：</div>
+			</div>
+		 </div>
+		 <div id="right" style="width:70%;height:800px;float:left;">
+			<div style="width:80%;height:800px;background-color:#DFEDFC;margin:20px auto;overflow-y:auto;overflow-x:hidden;">
+				
+			</div>
+		 </div>
+		 <div style="clear:both"></div>
+	  </div>
+	  <br class="clearboth" />
+	 
+</div>
+</body>
+</html>
