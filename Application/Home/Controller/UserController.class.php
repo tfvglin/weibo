@@ -54,14 +54,16 @@ class UserController extends Controller {
 			$user->password=$_POST['password'];
 			$user->email=$_POST['email'];
 			$idNum=$user->add();
-				if($idNum>0){
+			
+				if( $idNum>0){
+					$mk=mkdir("./Public/Uploads/{$_POST['username']}",0700);
 					$this->success('注册成功','index');
 				}else{
 					$this->show('数据添加失败');
 				}
 		}
 	
-	$this->show();
+	
 		
 	}
 
@@ -69,6 +71,28 @@ class UserController extends Controller {
 	{
 		$this->display();
 	}
+
+	public function upload()
+		{    
+
+			dump($_POST['blog']);
+
+			$upload = new \Think\Upload();// 实例化上传类    
+			$upload->maxSize   =     3145728 ;// 设置附件上传大小   
+			$upload->exts      =     array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型    
+			$upload->rootPath  =      "./Public/Uploads/{$_SESSION['username']}/"; // 设置附件上传目录   
+			$upload->saveName = $_SESSION['id'];
+			// 上传文件     
+			$info   =   $upload->upload();   
+				if(!$info) {
+					// 上传错误提示错误信息        
+					$this->error($upload->getError());    
+					}
+						else{
+							// 上传成功        
+							$this->success('上传成功！');    
+							}
+		}
 
 
 }
