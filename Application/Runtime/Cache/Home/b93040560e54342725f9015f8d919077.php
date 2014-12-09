@@ -18,7 +18,7 @@
 				<?php if(is_array($userlist)): foreach($userlist as $key=>$vo): ?><tr>
 					<td><?php echo ($vo["username"]); ?></td>
 					<td><?php echo ($vo["email"]); ?></td>
-					<td>关注</td>
+					<td><a href="/weibo/index.php/Home/User/focus/id/<?php echo ($vo["ID"]); ?>">关注</a></td>
 				</tr><?php endforeach; endif; ?>
 			</table>
 			<div style="margin:10px auto;text-align:center;">

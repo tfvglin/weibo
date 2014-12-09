@@ -32,8 +32,8 @@
 			</div>
 			
 			<div id="leftb" style="width:80%;height:100px;margin:20px auto;background-color:#DFEDFC;">
-				<div>关注人数：</div>
-				<div>粉丝人数：</div>
+				<div>关注人数：{$Think.session.follownum}</div>
+				<div>粉丝人数：{$Think.session.focusnum}</div>
 			</div>
 		 </div>
 		 <div id="right" style="width:65%;height:800px;float:left;">
@@ -53,24 +53,30 @@
 						<div>{$vo.blog}</div>
 					</div>
 				</div>
-				<div>
-				评论内容
-					<foreach name="vo['comment']" item="comment">
+				<div style="background-color:#F1DFF8;border-style:double;width:95%;height:100px;overflow-y:auto;overflow-x:hidden;margin:0 auto;position:relative;">
+				<div style="color:#123456">评论内容</div>
 					<div>
+						<foreach name="vo['comment']" item="comment">
+							<div>
 				
-					{$comment.username}:{$comment.comment}
+								{$comment.username}:{$comment.comment}
+							</div>
+						</foreach>
 					</div>
-					</foreach>
-				<div>
-					<form method="post" action="__URL__/addcomment">
-						<input type="hidden" name="blogid" value="{$vo.ID}" />
-						<input type="text" name="comment" /><input type="submit" value="评论" /> 
-					</form>
-				</div>	
+					
 				</div>
+				<div style="width:80%;">
+						<form method="post" action="__URL__/addcomment" style="width:100%;">
+							<input type="hidden" name="blogid" value="{$vo.ID}" />
+							<div style="width:400px;">
+								<input type="text" name="comment" style="width:80%;"/><input type="submit" value="评论" /> 
+							</div>
+						</form>
+					</div>	
 				<hr/>
 				</foreach>
 			</div>
+				
 		 </div>
 		 <div style="clear:both"></div>
 	  </div>

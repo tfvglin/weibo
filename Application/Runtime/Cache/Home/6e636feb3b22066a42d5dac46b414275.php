@@ -32,8 +32,8 @@
 			</div>
 			
 			<div id="leftb" style="width:80%;height:100px;margin:20px auto;background-color:#DFEDFC;">
-				<div>关注人数：</div>
-				<div>粉丝人数：</div>
+				<div>关注人数：<?php echo (session('follownum')); ?></div>
+				<div>粉丝人数：<?php echo (session('focusnum')); ?></div>
 			</div>
 		 </div>
 		 <div id="right" style="width:65%;height:800px;float:left;">
@@ -50,21 +50,27 @@
 						<div><?php echo ($vo["blog"]); ?></div>
 					</div>
 				</div>
-				<div>
-				评论内容
-					<?php if(is_array($vo['comment'])): foreach($vo['comment'] as $key=>$comment): ?><div>
+				<div style="background-color:#F1DFF8;border-style:double;width:95%;height:100px;overflow-y:auto;overflow-x:hidden;margin:0 auto;position:relative;">
+				<div style="color:#123456">评论内容</div>
+					<div>
+						<?php if(is_array($vo['comment'])): foreach($vo['comment'] as $key=>$comment): ?><div>
 				
-					<?php echo ($comment["username"]); ?>:<?php echo ($comment["comment"]); ?>
-					</div><?php endforeach; endif; ?>
-				<div>
-					<form method="post" action="/weibo/index.php/Home/User/addcomment">
-						<input type="hidden" name="blogid" value="<?php echo ($vo["ID"]); ?>" />
-						<input type="text" name="comment" /><input type="submit" value="评论" /> 
-					</form>
-				</div>	
+								<?php echo ($comment["username"]); ?>:<?php echo ($comment["comment"]); ?>
+							</div><?php endforeach; endif; ?>
+					</div>
+					
 				</div>
+				<div style="width:80%;">
+						<form method="post" action="/weibo/index.php/Home/User/addcomment" style="width:100%;">
+							<input type="hidden" name="blogid" value="<?php echo ($vo["ID"]); ?>" />
+							<div style="width:400px;">
+								<input type="text" name="comment" style="width:80%;"/><input type="submit" value="评论" /> 
+							</div>
+						</form>
+					</div>	
 				<hr/><?php endforeach; endif; ?>
 			</div>
+				
 		 </div>
 		 <div style="clear:both"></div>
 	  </div>

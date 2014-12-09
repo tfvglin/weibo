@@ -17,9 +17,14 @@ class UserController extends Controller {
 		
 		
 		if($arr){
-				$_SESSION['username']=$username;
-				$_SESSION['id']=$arr['ID'];
-				
+
+				$f=M('Follow');
+				$follownum=$f->where("userid={$arr['ID']}")->count();
+				$focusnum=$f->where("focusid={$arr['ID']}")->count();
+				$_SESSION['username']=$username;	
+				$_SESSION['userid']=$arr['ID'];
+				$_SESSION['follownum']=$follownum;
+				$_SESSION['focusnum']=$focusnum;
 				$this->assign('name',$username);
 				//$this->display();
 				$this->success('登录成功','main');
@@ -32,7 +37,10 @@ class UserController extends Controller {
 	public function main()
 	{
 		$b=M('Blog');
-		$condition['userid']=$_SESSION['id'];
+		$f=M('Follow');
+		$arrid=$f->where("userid='{$_SESSION['userid']}'")->field('focusid')->select();
+		//dump($arrid);
+		$condition['userid']=$_SESSION['userid'];
 		$barr=$b->where($condition)->select();
 		$c=M('Comment');
 		//dump($barr[0]);
@@ -94,13 +102,13 @@ class UserController extends Controller {
 
 	public function upload()
 		{    
-	/*	dump($_SESSION['id']);
+	/*	dump($_SESSION['userid']);
 			$blogcontent=$_POST['blog'];
 		
 			$b=M('Blog');
 			$b->blog=$blogcontent;
 			$b->time= NOW_TIME;
-			$b->userid=$_SESSION['id'];
+			$b->userid=$_SESSION['userid'];
 			$idNum=$b->add();
 			
 				if( $idNum>0){
@@ -110,7 +118,7 @@ class UserController extends Controller {
 				$upload = new \Think\Upload();// 实例化上传类    
 				$upload->maxSize   =     3145728 ;// 设置附件上传大小   
 				$upload->exts      =     array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型    
-				$upload->rootPath  =      "./Public/Uploads/{$_SESSION['id']}/"; // 设置附件上传目录   
+				$upload->rootPath  =      "./Public/Uploads/{$_SESSION['userid']}/"; // 设置附件上传目录   
 				$upload->saveName = array('uniqid','');
 				$upload->savePath  =      ''; // 设置附件上传（子）目录
 				// 上传文件    
@@ -128,7 +136,7 @@ class UserController extends Controller {
 						$b->blog=$blogcontent;
 						$b->time= date("Y-m-d H:i:s",NOW_TIME); 
 						$b->dateinfo= date("Y-m-d",NOW_TIME);
-						$b->userid=$_SESSION['id'];
+						$b->userid=$_SESSION['userid'];
 						$b->img='0';
 						$idNum=$b->add();
 							if( $idNum>0){
@@ -148,7 +156,7 @@ class UserController extends Controller {
 							$b->blog=$blogcontent;
 							$b->time= date("Y-m-d H:i:s",NOW_TIME); 
 							$b->dateinfo= date("Y-m-d",NOW_TIME);
-							$b->userid=$_SESSION['id'];
+							$b->userid=$_SESSION['userid'];
 							$b->img=$info['photo']['savename'];
 							$idNum=$b->add();
 							if( $idNum>0){
@@ -197,6 +205,60 @@ class UserController extends Controller {
 			$this->error('未查到相关用户');
 		}
 	}
+
+
+	public function focus()
+	{
+		$u=M('Follow');
+		//$condition['ID']=$_SESSION['userid'];
+		//$str=$u->where($condition)->file('followlist')->find();
+		$u->userid=$_SESSION['userid'];
+		$u->focusid=$_GET['id'];
+		$num=$u->add();
+		if($num>0)
+		{
+			$this->success('关注成功');
+		}
+		else{
+			$this->error('关注失败');
+		}
+		
+	}
+
+	public function cancelfocus()
+	{
+		$f=M('Follow');
+		$condition['userid']=$_SESSION['userid'];
+		$condition['focusid']=$_GET['id'];
+		$num=$f->where($condition)->delete();
+		if($num>0)
+		{
+			$this->success('取消关注成功');
+		}
+		else
+		{
+			$this->error('取消关注失败');
+		}
+	}
+
+	public function showfollow()
+	{
+		$f=M('Follow');
+		$u=M('User');
+		$fid->$f->where("userid='{$_SESSION['userid']}'")->field('focusid')->select();
+	
+		
+	}
+
+	public function showfocus()
+	{
+		$f=M('Follow');
+		$u=M('User');
+		$fid->$f->where("userid='{$_SESSION['focusid']}'")->field('userid')->select();
+	
+		
+	}
+
 
 
 }

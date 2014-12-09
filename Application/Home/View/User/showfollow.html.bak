@@ -19,7 +19,7 @@
 				<tr>
 					<td>{$vo.username}</td>
 					<td>{$vo.email}</td>
-					<td><a href="__URL__/focus/id/{$vo.ID}">关注</a></td>
+					<td><a href="__URL__/cancelfocus/id/{$vo.ID}">取消关注</a></td>
 				</tr>
 				</foreach>
 			</table>
