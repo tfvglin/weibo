@@ -12,19 +12,28 @@ class UserController extends Controller {
 		$user=M('User');
 		$where['username']=$_POST['username'];
 		$where['password']=$_POST['password'];
-		$arr=$user->field('ID')->where($where)->find();
+		$arr=$user->where($where)->find();
+		
 		$username=$_POST['username'];
 		
 		
 		if($arr){
-
-				$f=M('Follow');
-				$follownum=$f->where("userid={$arr['ID']}")->count();
-				$focusnum=$f->where("focusid={$arr['ID']}")->count();
+				
 				$_SESSION['username']=$username;	
 				$_SESSION['userid']=$arr['ID'];
-				$_SESSION['follownum']=$follownum;
+				$_SESSION['logintime']=date("Y-m-d H:i:s",NOW_TIME);
+				$_SESSION['sex']=$arr['sex'];
+			/*	$f=M('Follow');
+				$focusnum=$f->where("userid={$arr['ID']}")->count();
+				$follownum=$f->where("focusid={$arr['ID']}")->count();
+						
+				$b=M('Blog');
+				$blognum=$b->where("userid={$arr['ID']}")->count();
+				
+				$_SESSION['blognum']=$blognum;
 				$_SESSION['focusnum']=$focusnum;
+				$_SESSION['follownum']=$follownum;
+			*/
 				$this->assign('name',$username);
 				//$this->display();
 				$this->success('登录成功','main');
@@ -33,15 +42,45 @@ class UserController extends Controller {
 			}
 		
 	}
+	
+	public function logout()
+	{
+		session(null);
+		$this->display('index');
+	}
 
 	public function main()
 	{
+		$f=M('Follow');
+		$focusnum=$f->where("userid={$_SESSION['userid']}")->count();
+		$follownum=$f->where("focusid={$_SESSION['userid']}")->count();
+						
+		$b=M('Blog');
+		$blognum=$b->where("userid={$_SESSION['userid']}")->count();
+				
+		$_SESSION['blognum']=$blognum;
+		$_SESSION['focusnum']=$focusnum;
+		$_SESSION['follownum']=$follownum;
+			
+	
+	
 		$b=M('Blog');
 		$f=M('Follow');
-		$arrid=$f->where("userid='{$_SESSION['userid']}'")->field('focusid')->select();
-		//dump($arrid);
+		$arrid=$f->where("userid='{$_SESSION['userid']}'")->getField('focusid',true);
+		if($arrid==null)
+		{
+			$mod="userid='{$_SESSION['userid']}'";
+			//dump($arrid);
+		}
+		else{
+		
+			$mod="userid in (" . implode(',', $arrid) . ")"." or userid="."'{$_SESSION['userid']}'";
+			}
+		//dump($mod);
+		$testarr=$b->where($mod)->select();
+		//dump($testarr);
 		$condition['userid']=$_SESSION['userid'];
-		$barr=$b->where($condition)->select();
+		$barr=$b->where($mod)->order('time asc')->select();
 		$c=M('Comment');
 		//dump($barr[0]);
 		$num=sizeof($barr);
@@ -78,6 +117,7 @@ class UserController extends Controller {
 			$user->username=$_POST['username'];
 			$user->password=$_POST['password'];
 			$user->email=$_POST['email'];
+			$user->sex=$_POST['sex'];
 			$idNum=$user->add();
 			
 				if( $idNum>0){
@@ -137,7 +177,9 @@ class UserController extends Controller {
 						$b->time= date("Y-m-d H:i:s",NOW_TIME); 
 						$b->dateinfo= date("Y-m-d",NOW_TIME);
 						$b->userid=$_SESSION['userid'];
+						$b->username=$_SESSION['username'];
 						$b->img='0';
+						$b->isrepeat='0';
 						$idNum=$b->add();
 							if( $idNum>0){
 							
@@ -157,7 +199,9 @@ class UserController extends Controller {
 							$b->time= date("Y-m-d H:i:s",NOW_TIME); 
 							$b->dateinfo= date("Y-m-d",NOW_TIME);
 							$b->userid=$_SESSION['userid'];
+							$b->username=$_SESSION['username'];
 							$b->img=$info['photo']['savename'];
+							$b->isrepeat='0';
 							$idNum=$b->add();
 							if( $idNum>0){
 							
@@ -191,14 +235,35 @@ class UserController extends Controller {
 	public function searchuser()
 	{
 	
-		
+		$f=M('Follow');
 		$u=M('User');
 		$condition['username']=array('like',"%{$_POST['searchname']}%");
+		$condition['ID']=array('neq',"{$_SESSION['userid']}");
+		$mod['userid']=$_SESSION['userid'];
 		$arr=$u->where($condition)->select();
-		
+		$allarrid=$u->where($condition)->getfield('ID',true);
+		$focusid=$f->where($mod)->getfield('focusid',true);
+		if($focusid==null)
+		{
+			$unfocusarr=$allarrid;
+		}
+		else{
+			$unfocusarr = array_diff($allarrid,$focusid);
+		}
+		$focusarr = array_intersect($allarrid,$focusid);
+		//dump($focusid);
+		//dump($allarrid);
+		//dump($unfocusarr);
+		//dump($focusarr);
+		$focusmod="ID in (" . implode(',', $focusarr) . ")";
+		$unfocusmod="ID in (" . implode(',', $unfocusarr) . ")";
+		$arr=$u->where($condition)->select();
+		$focuslist=$u->where($focusmod)->select();
+		$unfocuslist=$u->where($unfocusmod)->select();
 		if(sizeof($arr)>0)
 		{
-			$this->assign('userlist',$arr);
+			$this->assign('focuslist',$focuslist);
+			$this->assign('unfocuslist',$unfocuslist);
 			$this->display();
 		}
 		else{
@@ -217,10 +282,10 @@ class UserController extends Controller {
 		$num=$u->add();
 		if($num>0)
 		{
-			$this->success('关注成功');
+			$this->success('关注成功','/weibo/index.php/Home/User/main');
 		}
 		else{
-			$this->error('关注失败');
+			$this->error('关注失败','/weibo/index.php/Home/User/main');
 		}
 		
 	}
@@ -243,20 +308,88 @@ class UserController extends Controller {
 
 	public function showfollow()
 	{
+		
 		$f=M('Follow');
 		$u=M('User');
-		$fid->$f->where("userid='{$_SESSION['userid']}'")->field('focusid')->select();
-	
+		$fid=$f->where("focusid='{$_SESSION['userid']}'")->getfield('userid',true);
+		$mod="ID in (" . implode(',', $fid) . ")";
+		$userarr=$u->where($mod)->select();
+		$this->assign('userarr',$userarr);
+		$this->display();
 		
 	}
 
 	public function showfocus()
 	{
+		
 		$f=M('Follow');
 		$u=M('User');
-		$fid->$f->where("userid='{$_SESSION['focusid']}'")->field('userid')->select();
-	
+		//echo($_SESSION['userid']);
+		$fid=$f->where("userid='{$_SESSION['userid']}'")->getfield('focusid',true);
+		//dump($fid);
+		$mod="ID in (" . implode(',', $fid) . ")";
+		$userarr=$u->where($mod)->select();
+		$this->assign('userarr',$userarr);
+		$this->display();
 		
+	}
+	
+	public function	transmit()
+	{
+		$b=M('Blog');
+		$b->isrepeat='1';
+		$b->originaluser=$_POST['username'];
+		//$b->originaluserid=$_POST['userid'];
+		$b->blog=$_POST['blog'];
+		$b->username=$_SESSION['username'];
+		$b->userid=$_SESSION['userid'];
+		
+		$b->time= date("Y-m-d H:i:s",NOW_TIME); 
+		$dateinfo= date("Y-m-d",NOW_TIME);
+		$b->dateinfo=$dateinfo;
+		if($_POST['imgurl']=='')
+		{
+			$b->img='0';
+		}
+		else{
+			$dirname="./Public/Uploads/{$_SESSION['userid']}/{$dateinfo}";
+			if(!is_dir($dirname)) {
+				mkdir($dirname, 0777, true);
+				}
+			$b->img=$_POST['img'];
+			$orurl=$_POST['imgurl'];
+			$deurl="./Public/Uploads/{$_SESSION['userid']}/{$dateinfo}/{$_POST['img']}";
+			$ok=copy($orurl,$deurl);
+			if($ok)
+			{
+				echo('ok');
+			}
+			else{
+			echo('error');
+			}
+		}
+		
+		$b->ps="转发自【{$_POST['username']}】".$_POST['ps'];
+		$num=$b->add();
+		if($num>0)
+		{
+			$this->success('转发成功','/weibo/index.php/Home/User/main');
+		}
+		else{
+			$this->error('转发失败','/weibo/index.php/Home/User/main');
+		}
+		
+	/*	dump($b->img);
+		dump($b->originaluser);
+		dump($b->blog);
+		dump($b->username);
+		dump($b->time);
+		dump($b->dateinfo);
+		dump($dirname);
+		dump($orurl);
+		dump($deurl);
+		dump($b->ps);
+	*/
 	}
 
 

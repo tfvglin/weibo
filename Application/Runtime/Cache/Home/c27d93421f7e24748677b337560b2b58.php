@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php if (!defined('THINK_PATH')) exit();?>﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html" />
@@ -17,22 +17,18 @@
 					<th>取消关注</th>
 					
 				 </tr>
-				<foreach name="userarr" item="vo">
-				<tr>
-					<td>{$vo.username}</td>
-					<td>{$vo.email}</td>
-						<td><if condition="$vo.sex eq 0 ">
-							女
-							<else /> 
-							男
-						</if>
+				<?php if(is_array($userarr)): foreach($userarr as $key=>$vo): ?><tr>
+					<td><?php echo ($vo["username"]); ?></td>
+					<td><?php echo ($vo["email"]); ?></td>
+						<td><?php if($vo["sex"] == 0 ): ?>女
+							<?php else: ?> 
+							男<?php endif; ?>
 					</td>
-					<td><a href="__URL__/cancelfocus/id/{$vo.ID}">取消关注</a></td>
-				</tr>
-				</foreach>
+					<td><a href="/weibo/index.php/Home/User/cancelfocus/id/<?php echo ($vo["ID"]); ?>">取消关注</a></td>
+				</tr><?php endforeach; endif; ?>
 			</table>
 			<div style="margin:10px auto;text-align:center;">
-				<a href="__URL__/main">返回</a>	
+				<a href="/weibo/index.php/Home/User/main">返回</a>	
 			</div>
 		</div>
 		  </div>

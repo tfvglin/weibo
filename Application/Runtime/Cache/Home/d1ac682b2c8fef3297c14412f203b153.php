@@ -8,8 +8,8 @@
 
 <body>
 		
-		<div style="width:100%;height:400px;background-color:#39D69E;margin:20px auto;">
-			<div style="width:50%;margin:100px auto;">
+		<div style="width:1000px;height:400px;background-image:url('/weibo/Public/img/009.jpg');margin:20px auto;">
+			<div style="width:500px;margin:0 auto;padding-top:40px">
 			<fieldset>
 			<legend>发布新内容</legend>
 			
@@ -23,13 +23,18 @@
 						<div >文字内容：</div>
 						<div ><textarea  name="blog" style="resize:none;width:420px;height:130px"></textarea></div>
 					</div>
-					<input type="submit" value="提交" >
+					<input type="submit" value="提交" style="margin-top:10px" >
 				</form>
 		
 			</fieldset>
 			</div>
 
 		</div>
+		  </div>
+	    <div style="width:1000px;background-color: #EEEEE0; color:#999999;margin:40px auto;text-align:center;">
+     	<p>Copyright&copy; 2014 ,lsn, All Rights Reserved</p>
+     	<p>Powerby linsen</p>
+     </div>
 
 </body>
 </html>

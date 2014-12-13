@@ -9,24 +9,62 @@
 <body>
 		
 		<div >
+			
 			<table  border="1" style="background-color:#D9F0F4;margin:0 auto;" >
-				 <tr>
+					<caption align="top">未关注用户列表</caption> 
+				<tr>
 					<th>用户</th>
 					<th>联系邮箱</th>
+					<th>性别</th>
 					<th>关注</th>
 				 </tr>
-				<foreach name="userlist" item="vo">
+				<foreach name="unfocuslist" item="vo">
 				<tr>
 					<td>{$vo.username}</td>
 					<td>{$vo.email}</td>
+						<td><if condition="$vo.sex eq 0 ">
+							女
+							<else /> 
+							男
+						</if>
+					</td>
 					<td><a href="__URL__/focus/id/{$vo.ID}">关注</a></td>
 				</tr>
 				</foreach>
 			</table>
 			<div style="margin:10px auto;text-align:center;">
-				<a href="javascript:history.go(-1)">返回</a>	
+			
+				<table  border="1" style="background-color:#D9F0F4;margin:0 auto;" >
+					<caption align="top">已关注用户列表</caption> 
+				<tr>
+					<th>用户</th>
+					<th>联系邮箱</th>
+					<th>性别</th>
+					<th>关注</th>
+				 </tr>
+				<foreach name="focuslist" item="vo">
+				<tr>
+					<td>{$vo.username}</td>
+					<td>{$vo.email}</td>
+					<td><if condition="$vo.sex eq 0 ">
+							女
+							<else /> 
+							男
+						</if>
+					</td>
+					<td><a href="__URL__/cancelfocus/id/{$vo.ID}">取消关注</a></td>
+				</tr>
+				</foreach>
+			</table>
+			<div style="margin:10px auto;text-align:center;">
+				<a href="__URL__/main">返回</a>	
 			</div>
 		</div>
+		  </div>
+	    <div style="width:1000px;background-color: #EEEEE0; color:#999999;margin:40px auto;text-align:center;">
+     	<p>Copyright&copy; 2014 ,lsn, All Rights Reserved</p>
+     	<p>Powerby linsen</p>
+     </div>
 		
 
 </body>
