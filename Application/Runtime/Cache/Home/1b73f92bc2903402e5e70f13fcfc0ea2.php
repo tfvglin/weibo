@@ -8,8 +8,8 @@
 
 <body>
 		
-		<div style="width:100%;height:400px;background-color:#39D69E;margin:20px auto;">
-			<div style="width:50%;margin:100px auto;">
+		<div style="width:700px;height:400px;background-image:url('/weibo/Public/img/registback.jpg');margin:20px auto;">
+			<div style="width:50%;padding-top:100px;margin:0 auto;">
 			<fieldset>
 			<legend>用户注册</legend>
 			<form id="registform" name="registform" method="post" action="/weibo/index.php/home/user/adduser">

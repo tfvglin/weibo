@@ -7,26 +7,39 @@
 </head>
 
 <body>
-	<div>
-		<div style="width:40%;height:400px;float:left;text-align:center;background-color:#abcdef">
-			<h3>我的微博</h3>
+	<div >
+		
+	</div>
+	<div style="width:1000px;margin:0 auto">
+		<h1 style="text-align:center;">西电微博</h1>
+		<div style="width:350px;height:200px;float:left;text-align:center;margin:50px 50px;">
+			<img src="__PUBLIC__/img/sign.png"/>
 		</div>
 		
-		<div style="width:40%;height:400px;background-color:#39D69E;float:left;">
-			<div style="width:50%;margin:100px auto;">
+		<div style="width:350px;height:200px;background-image:url('__PUBLIC__/img/loginback.jpg');float:left;margin:50px 50px;background-size:cover;">
+			<div style="width:280px;margin:50px auto;">
+			<fieldset>
+			<legend>用户登录</legend>
 			<form id="loginform" name="loginform" method="post" action="__APP__/home/user/login">
 			  
 				<div class="banner" style="padding-top:10px;">用户名：<input type="text" name="username"/></div>
 				<div class="banner" style="padding-top:10px;">密　码：<input type="text" name="password"/></div>
-				<div style="float:left;padding:10px 40px;" ><input type="submit" value="登录"/></div>
-				<div style="float:left;padding:10px 20px;"><button type="button" onclick="javascript:window.location.href='__APP__/home/user/regist">注册</button></div>
+				<div style="margin:10px auto">
+				<div style="display:inline;margin-left:65px;" ><input type="submit" value="登录"/></div>
+				<div style="display:inline;margin-left:65px;"><button type="button" onclick="javascript:window.location.href='__APP__/home/user/regist'">注册</button></div>
+				</div>
 				<div style="clear:both"></div>
 			 
 			</form>
+			</fieldset>
 			</div>
 
 		</div>
 		<div style="clear:both"></div>
 	</div>
+	    <div style="width:1000px;background-color: #EEEEE0; color:#999999;margin:10px auto;text-align:center;">
+     	<p>Copyright&copy; 2014 ,lsn, All Rights Reserved</p>
+     	<p>Powerby linsen</p>
+     </div>
 </body>
 </html>

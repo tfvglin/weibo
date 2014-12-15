@@ -9,17 +9,22 @@
 <body>
 <div style="width:80%;margin:0 auto">
 	<div style="width:100%">
-		<div style="float:right;text-align:right;">
+		<div style="float:right;text-align:right;padding-top:30px">
 			<a href="__APP__/home/user/newblog">发布新的内容</a>
 		</div>
-		<div style="float:right;width:40%;">
+		<div style="float:right;width:40%;padding-top:30px">
 			<form   method="post" action="__URL__/searchuser" style="width:250px;margin:0 100px;">
 	  
 				<input name="searchname" type="text" />
 				<input type="submit" value="搜索"/>	
 			</form>	
 		</div>
-		
+		<div style="float:left;width:400px;text-align:center">
+			<div style="position:relative;margin-right:100px;">
+				<img src="__PUBLIC__/img/school.jpg" width="50px" height="50px" style="display:inline"/>
+				<div style="display:inline;position:absolute;bottom:10px;font-size:30px;">西电微博</div>
+			</div>
+		</div>
 		<div style="clear:both;"></div>
 	</div>
 	</form>   
@@ -27,59 +32,112 @@
 		<div id="contentarea">
 		 <div id="left" style="width:35%;height:600px;float:left;">
 			<div id="lefta" style="width:80%;height:100px;margin:20px auto;background-color:#DFEDFC;">
-				<div>{$Think.session.username}的主页</div>
-				<div>登陆时间</div>
+				<div style="margin-left:10px;">
+				<div style="padding-top:10px;">{$Think.session.username}的主页
+				
+					<if condition="$Think.session.sex eq 0">
+						<img src="__PUBLIC__/img/woman.png" style="width:16px;height:16px;margin-left:20px;"/>
+						<else/>
+						<img src="__PUBLIC__/img/man.png" style="width:16px;height:16px;margin-left:20px;"/>
+					</if>	
+				
+				</div>
+				<div style="margin-top:10px;">登陆时间：{$Think.session.logintime}</div>
+				<div style="margin-top:10px;"><a href="__URL__/logout">退出<a></div>
+				</div>
 			</div>
 			
 			<div id="leftb" style="width:80%;height:100px;margin:20px auto;background-color:#DFEDFC;">
-				<div>关注人数：{$Think.session.follownum}</div>
-				<div>粉丝人数：{$Think.session.focusnum}</div>
+				<div style="margin-left:10px;">
+					<div style="padding-top:10px;">关注人数：{$Think.session.focusnum}　<a href="__URL__/showfocus">查看详情</a></div>
+					<div style="margin-top:10px;">粉丝人数：{$Think.session.follownum}　<a href="__URL__/showfollow">查看详情</a></div>
+					<div style="margin-top:10px;">微博总数：{$Think.session.blognum}</div>
+				</div>
 			</div>
 		 </div>
 		 <div id="right" style="width:65%;height:800px;float:left;">
 			<div style="width:100%;height:800px;background-color:#DFEDFC;margin:20px auto;overflow-y:auto;overflow-x:hidden;">
 				<foreach name="blog" item="vo">
 				<div>
-					<div>{$vo.time}</div>
+					<div>
+						<div style="display:inline;margin:5px 10px"><font style="font-weight:bold">{$vo.username}</font>----{$vo.time}</div>
+						
+						
+						<eq name="vo.userid" value="$Think.session.userid">
+							<else />
+								<div style="display:inline;">	
+									<a href="javascript:document.blogform{$vo.ID}.submit();">转发</a>
+								</div>
+								
+								<form action="__URL__/transmit" method="post" name="blogform{$vo.ID}">
+									<input type="hidden" value="{$vo.username}" name="username"/>
+									<input type="hidden" value="{$vo.blog}" name="blog"/>
+									<input type="hidden" value="{$vo.ps}" name="ps"/>
+								
+									<if condition="$vo.img eq 0 ">
+									<input type="hidden" value="" name="imgurl"/>
+									<else /> 
+									<input type="hidden" value="./Public/Uploads/{$vo.userid}/{$vo.dateinfo}/{$vo.img}" name="imgurl" />
+									<input type="hidden" value="{$vo.img}" name="img" />
+									</if>
+								</form>	
+							
+							</eq>
+							<if condition="$vo.isrepeat eq 1">
+							<div>{$vo.ps}</div>
+							<else/>
+							</if>
+						
+					</div>
+					
 					<div>
 						<if condition="$vo.img eq 0 ">
-							无图
+							
 							<else /> 
-							<img src="__ROOT__/Public/Uploads/{$vo.userid}/{$vo.dateinfo}/{$vo.img}"  width="200px"  height="200px" />
+							<img src="__ROOT__/Public/Uploads/{$vo.userid}/{$vo.dateinfo}/{$vo.img}"  style="max-height:300px; max-width:300px;margin:10px 20px;" />
 						</if>
 					</div>
 					<div>
 						
-						<div>{$vo.blog}</div>
+						<div style="width:90%;margin:10px auto;">{$vo.blog}</div>
 					</div>
 				</div>
-				<div style="background-color:#F1DFF8;border-style:double;width:95%;height:100px;overflow-y:auto;overflow-x:hidden;margin:0 auto;position:relative;">
-				<div style="color:#123456">评论内容</div>
-					<div>
-						<foreach name="vo['comment']" item="comment">
-							<div>
+				<div style="width:100%;height:140px;margin:0 auto;position:relative;">
 				
-								{$comment.username}:{$comment.comment}
+					<div style="font-family: Microsoft YaHei;color:#8B959E;font-weight:900">评论内容</div>
+					<div style="background-color:#EAF3FC;border-style:solid;border-width:1px; width:95%;height:80px;overflow-y:auto;overflow-x:hidden;margin-left:10px;">
+						<foreach name="vo['comment']" item="comment">
+							<div style="font-size:8px;margin-top:2px;">
+				
+								<div style="display:inline;color:#F95763;font-weight:700">{$comment.username}:</div><div style="display:inline">{$comment.comment}</div>
 							</div>
 						</foreach>
 					</div>
 					
+					<div style="display:inline;position:absolute;left:5px;bottom:0px;"><a href="__URL__/like/blogid/{$vo.ID}"><img src="__PUBLIC__/img/like.png"/></a></div>
+					<div style="display:inline;position:absolute;left:40px;bottom:5px;">（{$vo.like}）</div>
+					<div style="display:inline;position:absolute;left:100px;bottom:5px;">评论数 （{$vo.comnum}）</div>
+					<div style="position:absolute;right:20px;bottom:5px;display:inline">
+						<form method="post" action="__URL__/addcomment" >
+							<input type="hidden" name="blogid" value="{$vo.ID}" />
+							<div style="">
+								<input type="text" name="comment" style="margin-right:10px;width:200px;" /><input type="submit" value="评论" /> 
+							</div>
+						</form>
+					</div>	
+				
 				</div>
 				<hr/>
 				</foreach>
 			</div>
-				<div style="width:80%;">
-						<form method="post" action="__URL__/addcomment" style="width:100%;">
-							<input type="hidden" name="blogid" value="{$vo.ID}" />
-							<div style="width:400px;">
-								<input type="text" name="comment" style="width:80%;"/><input type="submit" value="评论" /> 
-							</div>
-						</form>
-					</div>	
+				
 		 </div>
 		 <div style="clear:both"></div>
 	  </div>
-	  <br class="clearboth" />
+	    <div style="width:1000px;background-color: #EEEEE0; color:#999999;margin:40px auto;text-align:center;">
+     	<p>Copyright&copy; 2014 ,lsn, All Rights Reserved</p>
+     	<p>Powerby linsen</p>
+     </div>
 	 
 </div>
 </body>

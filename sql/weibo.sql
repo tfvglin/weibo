@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50621
+Source Server         : localhost_3306_copy
+Source Server Version : 50520
 Source Host           : 127.0.0.1:3306
 Source Database       : weibo
 
 Target Server Type    : MYSQL
-Target Server Version : 50621
+Target Server Version : 50520
 File Encoding         : 65001
 
-Date: 2014-12-13 22:15:56
+Date: 2014-12-15 11:54:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,19 +30,21 @@ CREATE TABLE `weibo_blog` (
   `isrepeat` varchar(255) DEFAULT NULL,
   `originaluser` varchar(255) DEFAULT NULL,
   `ps` varchar(255) DEFAULT NULL,
+  `like` int(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of weibo_blog
 -- ----------------------------
-INSERT INTO `weibo_blog` VALUES ('15', '2014-12-08 16:42:52', '哈哈哈', '9', '0', '2014-12-08', 'linsen', null, null, null);
-INSERT INTO `weibo_blog` VALUES ('16', '2014-12-08 16:43:47', '嘻嘻嘻', '9', '548564c3f1448.jpg', '2014-12-08', 'linsen', null, null, null);
-INSERT INTO `weibo_blog` VALUES ('17', '2014-12-09 19:26:25', '下雪了', '9', '5486dc61bc821.jpg', '2014-12-09', 'linsen', null, null, null);
-INSERT INTO `weibo_blog` VALUES ('18', '2014-12-09 19:28:44', '真烦', '10', '0', '2014-12-09', 'tfvglin', null, null, null);
-INSERT INTO `weibo_blog` VALUES ('19', '2014-12-10 18:06:08', ' 呵呵', '10', '54881b102befa.jpg', '2014-12-10', 'tfvglin', null, null, null);
-INSERT INTO `weibo_blog` VALUES ('24', '2014-12-11 23:21:56', '真烦', '11', '0', '2014-12-11', 'houqian', '1', 'tfvglin', '转发自【tfvglin】');
-INSERT INTO `weibo_blog` VALUES ('25', '2014-12-11 23:22:28', '真烦', '10', '0', '2014-12-11', 'tfvglin', '1', 'houqian', '转发自【houqian】转发自【tfvglin】');
+INSERT INTO `weibo_blog` VALUES ('15', '2014-12-08 16:42:52', '哈哈哈', '9', '0', '2014-12-08', 'linsen', null, null, null, '19');
+INSERT INTO `weibo_blog` VALUES ('16', '2014-12-08 16:43:47', '嘻嘻嘻', '9', '548564c3f1448.jpg', '2014-12-08', 'linsen', null, null, null, '3');
+INSERT INTO `weibo_blog` VALUES ('17', '2014-12-09 19:26:25', '下雪了', '9', '5486dc61bc821.jpg', '2014-12-09', 'linsen', null, null, null, '1');
+INSERT INTO `weibo_blog` VALUES ('18', '2014-12-09 19:28:44', '真烦', '10', '0', '2014-12-09', 'tfvglin', null, null, null, '1');
+INSERT INTO `weibo_blog` VALUES ('19', '2014-12-10 18:06:08', ' 呵呵', '10', '54881b102befa.jpg', '2014-12-10', 'tfvglin', null, null, null, '0');
+INSERT INTO `weibo_blog` VALUES ('24', '2014-12-11 23:21:56', '真烦', '11', '0', '2014-12-11', 'houqian', '1', 'tfvglin', '转发自【tfvglin】', '1');
+INSERT INTO `weibo_blog` VALUES ('25', '2014-12-11 23:22:28', '真烦', '10', '0', '2014-12-11', 'tfvglin', '1', 'houqian', '转发自【houqian】转发自【tfvglin】', '1');
+INSERT INTO `weibo_blog` VALUES ('26', '2014-12-14 12:20:56', '赞赞赞赞', '10', '0', '2014-12-14', 'tfvglin', '0', null, null, '7');
 
 -- ----------------------------
 -- Table structure for weibo_comment
@@ -54,7 +56,7 @@ CREATE TABLE `weibo_comment` (
   `blogid` varchar(11) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of weibo_comment
@@ -70,6 +72,11 @@ INSERT INTO `weibo_comment` VALUES ('8', '再再测试一下', '15', 'linsen');
 INSERT INTO `weibo_comment` VALUES ('9', '帮你测试下', '15', 'tfvglin');
 INSERT INTO `weibo_comment` VALUES ('10', '笑你妹', '16', 'tfvglin');
 INSERT INTO `weibo_comment` VALUES ('11', '', '15', 'tfvglin');
+INSERT INTO `weibo_comment` VALUES ('12', '怎么回事', '16', 'tfvglin');
+INSERT INTO `weibo_comment` VALUES ('13', '呃呃呃', '24', 'tfvglin');
+INSERT INTO `weibo_comment` VALUES ('14', '没有', '17', 'tfvglin');
+INSERT INTO `weibo_comment` VALUES ('15', '嗯嗯', '19', 'tfvglin');
+INSERT INTO `weibo_comment` VALUES ('16', 'aaa', '18', 'tfvglin');
 
 -- ----------------------------
 -- Table structure for weibo_follow

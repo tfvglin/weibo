@@ -7,16 +7,19 @@
 </head>
 
 <body>
-	<div style="text-align:center;width:1000px;">
-		<h1>西电微博</h1>
+	<div >
+		
 	</div>
 	<div style="width:1000px;margin:0 auto">
-		<div style="width:350px;height:400px;float:left;text-align:center;background-color:#abcdef;margin-left:100px">
-			<h3>我的微博</h3>
+		<h1 style="text-align:center;">西电微博</h1>
+		<div style="width:350px;height:200px;float:left;text-align:center;margin:50px 50px;">
+			<img src="__PUBLIC__/img/sign.png"/>
 		</div>
 		
-		<div style="width:350px;height:200px;background-color:#39D69E;float:left;margin:50px 50px;">
-			<div style="width:280px;margin:50px auto;">
+		<div style="width:350px;height:200px;background-image:url('__PUBLIC__/img/loginback.jpg');float:left;margin:50px 50px;background-size:cover;">
+			<div style="width:280px;margin:10px auto;">
+			<fieldset>
+			<legend>用户登录</legend>
 			<form id="loginform" name="loginform" method="post" action="__APP__/home/user/login">
 			  
 				<div class="banner" style="padding-top:10px;">用户名：<input type="text" name="username"/></div>
@@ -28,6 +31,7 @@
 				<div style="clear:both"></div>
 			 
 			</form>
+			</fieldset>
 			</div>
 
 		</div>

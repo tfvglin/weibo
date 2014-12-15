@@ -89,8 +89,10 @@ class UserController extends Controller {
 			//dump($barr[$i]['ID']);
 			$con['blogid']=$barr[$i]['ID'];
 			$carr=$c->where($con)->select();
+			$comnum=$c->where($con)->count();
 			//dump($carr);
 			$barr[$i]['comment']=$carr;
+			$barr[$i]['comnum']=$comnum;
 		}
 		//dump($barr);
 		$this->assign('blog',$barr);
@@ -180,6 +182,7 @@ class UserController extends Controller {
 						$b->username=$_SESSION['username'];
 						$b->img='0';
 						$b->isrepeat='0';
+						$b->like=0;
 						$idNum=$b->add();
 							if( $idNum>0){
 							
@@ -202,6 +205,7 @@ class UserController extends Controller {
 							$b->username=$_SESSION['username'];
 							$b->img=$info['photo']['savename'];
 							$b->isrepeat='0';
+							$b->like=0;
 							$idNum=$b->add();
 							if( $idNum>0){
 							
@@ -390,6 +394,27 @@ class UserController extends Controller {
 		dump($deurl);
 		dump($b->ps);
 	*/
+	}
+
+	public function like()
+	{
+		$b=M('Blog');
+		$blogid=$_GET['blogid'];
+		$bloglike=$b->where("ID = {$blogid} ")->getfield('like',true);
+		//dump((int)$bloglike[0]);
+		$like=(int)$bloglike[0]+1;
+		dump($like);
+		$data['like']=$like;
+		$result=$b->where("ID = {$blogid} ")->save($data);
+		dump($result);
+		 if($result>0){
+			 //$this->success('评论成功','main');
+			   $this->redirect("main");
+		 }else{
+			echo '数据更新失败！';
+		 }
+		dump($like);
+
 	}
 
 
