@@ -53,8 +53,8 @@
 				</div>
 			</div>
 		 </div>
-		 <div id="right" style="width:65%;height:800px;float:left;">
-			<div style="width:100%;height:800px;background-color:#DFEDFC;margin:20px auto;overflow-y:auto;overflow-x:hidden;">
+		 <div id="right" style="width:65%;height:700px;float:left;">
+			<div style="width:100%;height:700px;background-color:#DFEDFC;margin:20px auto;overflow-y:auto;overflow-x:hidden;">
 				<?php if(is_array($blog)): foreach($blog as $key=>$vo): ?><div>
 					<div>
 						<div style="display:inline;margin:5px 10px"><font style="font-weight:bold"><?php echo ($vo["username"]); ?></font>----<?php echo ($vo["time"]); ?></div>

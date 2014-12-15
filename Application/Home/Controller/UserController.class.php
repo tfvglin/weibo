@@ -124,7 +124,7 @@ class UserController extends Controller {
 			
 				if( $idNum>0){
 					$userid=$user->where("username='{$_POST['username']}'")->field('ID')->find();
-					dump($userid);
+					//dump($userid);
 					$mk=mkdir("./Public/Uploads/{$userid['ID']}",0700);
 					//$this->show();
 					$this->success('注册成功','index');
@@ -364,15 +364,9 @@ class UserController extends Controller {
 			$orurl=$_POST['imgurl'];
 			$deurl="./Public/Uploads/{$_SESSION['userid']}/{$dateinfo}/{$_POST['img']}";
 			$ok=copy($orurl,$deurl);
-			if($ok)
-			{
-				echo('ok');
-			}
-			else{
-			echo('error');
-			}
-		}
 		
+		}
+		$b->like=0;
 		$b->ps="转发自【{$_POST['username']}】".$_POST['ps'];
 		$num=$b->add();
 		if($num>0)
@@ -403,17 +397,17 @@ class UserController extends Controller {
 		$bloglike=$b->where("ID = {$blogid} ")->getfield('like',true);
 		//dump((int)$bloglike[0]);
 		$like=(int)$bloglike[0]+1;
-		dump($like);
+		//dump($like);
 		$data['like']=$like;
 		$result=$b->where("ID = {$blogid} ")->save($data);
-		dump($result);
+		//dump($result);
 		 if($result>0){
 			 //$this->success('评论成功','main');
 			   $this->redirect("main");
 		 }else{
 			echo '数据更新失败！';
 		 }
-		dump($like);
+		//dump($like);
 
 	}
 
